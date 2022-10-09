@@ -1,0 +1,41 @@
+body {
+    font: caption;
+    text-align: center;
+}
+
+a {
+    cursor: pointer;
+    text-decoration-line: underline;
+}
+
+.container {
+    padding: 10%
+}
+
+.scan-container, .clean-container {
+    padding: 5%
+}
+
+.btn {
+    text-transform: uppercase;
+    width: 250px;
+}
+
+.info {
+    color: blue;
+}
+
+.space {
+    margin: 2%
+}
+
+#scan-progress, #clean-progress {
+    width: 100%;
+    background-color: grey;
+}
+
+#scan-bar, #clean-bar {
+    width: 1%;
+    height: 10px;
+    background-color: green;
+}

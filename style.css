@@ -1,0 +1,30 @@
+body {
+    font: caption;
+    text-align: center;
+}
+
+.container {
+    padding: 20%
+}
+
+.title {
+    text-transform: uppercase;
+}
+
+#activate-btn {
+    text-transform: uppercase;
+    width: 300px;
+    font-weight: bold;
+}
+
+#activate-progress {
+    width: 100%;
+    background-color: grey;
+    margin: 2%;
+}
+
+#activate-bar {
+    width: 1%;
+    height: 10px;
+    background-color: green;
+}

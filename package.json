@@ -1,0 +1,33 @@
+{
+  "name": "maximum-safety",
+  "version": "1.0.0",
+  "description": "Security Detection and Clean System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeeMadness/maximum-safety.git"
+  },
+  "keywords": [
+    "ClamAV",
+    "Bleachbit",
+    "Security",
+    "Detection",
+    "Clean",
+    "System"
+  ],
+  "author": "Codee Madness",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeeMadness/maximum-safety/issues"
+  },
+  "homepage": "https://github.com/codeeMadness/maximum-safety#readme",
+  "devDependencies": {
+    "electron": "^21.1.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-store": "^8.1.0"
+  }
+}
