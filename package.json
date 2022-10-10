@@ -27,8 +27,10 @@
   "homepage": "https://github.com/codeeMadness/maximum-safety#readme",
   "devDependencies": {
     "electron": "^21.1.0",
-    "electron-dl": "^3.3.1",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-store": "^8.1.0"
+  },
+  "dependencies": {
+    "node-downloader-helper": "^2.1.4"
   }
 }

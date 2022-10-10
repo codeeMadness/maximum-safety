@@ -2,11 +2,17 @@ const { app, ipcMain } = require('electron')
 const path = require('path')
 const Window = require('./utils/Window');
 const DataStore = require('./utils/DataStore');
+const BleachBit = require('./entities/BleachBit');
+const ClamAV = require('./entities/ClamAV');
 require('electron-reload')(__dirname);
 
 function main() {
+    let bleachbit = new BleachBit({});
+    let clamAV = new ClamAV({});
+
     let mainWindow = new Window({file: path.join('renderer', 'index.html')})
     let scanWindow, quarantineWindow;
+
     ipcMain.on('open-scan-window', () => {
         if(scanWindow) return;
         scanWindow = new Window({
@@ -26,6 +32,13 @@ function main() {
           parent: scanWindow
         })
     })
+
+    ipcMain.handle('download-bleachbit', () => {
+      bleachbit.download();
+    });
+    ipcMain.handle('download-clamav', () => {
+      clamAV.download();
+    });
 }
 
 app.whenReady().then(() => {

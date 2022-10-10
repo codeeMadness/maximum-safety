@@ -8,5 +8,7 @@ contextBridge.exposeInMainWorld('versions', {
 
 contextBridge.exposeInMainWorld('actions', {
     openScanWindow: () => ipcRenderer.send('open-scan-window'),
-    openQuarantineSummaryWindow: () => ipcRenderer.send('open-quarantine-summary-window')
+    openQuarantineSummaryWindow: () => ipcRenderer.send('open-quarantine-summary-window'),
+    downloadBleachbit: () => ipcRenderer.invoke('download-bleachbit'),
+    downloadClamAV: () => ipcRenderer.invoke('download-clamav')
 })

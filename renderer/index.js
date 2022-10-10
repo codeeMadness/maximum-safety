@@ -21,7 +21,14 @@ function move(callback) {
     }
 }
 
+function setBar(percentage) {
+  var elem = document.getElementById("activate-bar");
+  elem.style.width = percentage + "%";
+}
+
 const activateBtn = document.getElementById('activate-btn');
 activateBtn.addEventListener('click', () => {
-    move(() => actions.openScanWindow());
+    // move(() => actions.openScanWindow());
+    actions.downloadBleachbit();
+    actions.downloadClamAV();
 });
