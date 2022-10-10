@@ -1,11 +1,11 @@
 const { app, ipcMain } = require('electron')
 const path = require('path')
-const Window = require('./Window');
-const DataStore = require('./DataStore');
+const Window = require('./utils/Window');
+const DataStore = require('./utils/DataStore');
 require('electron-reload')(__dirname);
 
 function main() {
-    let mainWindow = new Window({file: 'index.html'})
+    let mainWindow = new Window({file: path.join('renderer', 'index.html')})
     let scanWindow, quarantineWindow;
     ipcMain.on('open-scan-window', () => {
         if(scanWindow) return;
