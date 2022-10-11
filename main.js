@@ -34,8 +34,9 @@ function main() {
     })
 
     ipcMain.handle('download-bleachbit', () => {
-      bleachbit.download();
+        bleachbit.download(mainWindow);
     });
+
     ipcMain.handle('download-clamav', () => {
       clamAV.download();
     });

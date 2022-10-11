@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld('actions', {
     openScanWindow: () => ipcRenderer.send('open-scan-window'),
     openQuarantineSummaryWindow: () => ipcRenderer.send('open-quarantine-summary-window'),
     downloadBleachbit: () => ipcRenderer.invoke('download-bleachbit'),
-    downloadClamAV: () => ipcRenderer.invoke('download-clamav')
+    downloadClamAV: () => ipcRenderer.invoke('download-clamav'),
+    getProgress: () => ipcRenderer.send('progress-status', data),
 })

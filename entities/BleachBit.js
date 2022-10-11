@@ -1,33 +1,20 @@
 'use strict'
-const { DownloaderHelper } = require('node-downloader-helper');
-const fs = require("fs");
-const params = require('../utils/params');
+const { params, cmd } = require('../utils/constant');
+const WinOS = require('./WinOS');
 
-class BleachBit {
+class BleachBit{
     constructor(settings) {
         this.settings = settings;
+        this.winos = new WinOS(params.BLEACHBIT_VERSION, params.BLEACHBIT_URL);
     }
 
-    download() {
-        let path = params.LOCATION + "/" + params.BLEACHBIT_VERSION;
-        if(fs.existsSync(path)) {
-          console.log("File already exists");
-          return;
-        }
-      
-        let dl = new DownloaderHelper(params.BLEACHBIT_URL, params.LOCATION);
-        dl.on('error', (err) => console.log('Download Failed', err));
-        dl.start().catch(err => console.error(err));
-        dl.on('progress', (stats) => {
-          let progress = stats.progress;
-          if(progress >= 100) {
-            console.log("Download Bleachbit completed");
-          }
-        });
+    download(window) {
+        // this.winos.download(() => WinOS.install(cmd.BLEACHBIT_INSTALL));
+        this.winos.download(window);
     }
 
-    install() {
-        
+    getProgress() {
+        return this.winos.progress;
     }
 }
 
