@@ -6,7 +6,30 @@ const Logging = require('./logging');
 // This function will output the lines from the script 
 // and will return the full combined output
 // as well as exit code when it's done (using the callback).
-const run_script = (command, args, callback = null) => {
+const run_script = (command, args, opt = null, callback = null) => {
+    let running = true;
+    let percentage = 0;
+
+    if(opt && opt.progress) {
+        var id = setInterval(() => {
+
+            if(running) {
+                percentage += 10;
+                if(percentage >=90) percentage = 90;
+            }
+            else {
+                percentage = 100;
+                clearInterval(id);
+            }
+
+            if(opt.window) {
+                // console.log('progress inteval ' + percentage);
+                opt.window.webContents.send('feature-progress', percentage);
+            }
+    
+        }, 100);
+    }
+
     var child = child_process.spawn(command, args, {
         encoding: 'utf8',
         shell: true
@@ -35,13 +58,14 @@ const run_script = (command, args, callback = null) => {
         //Here you can get the exit code of the script  
         switch (code) {
             case 0:
+                running = false;
                 Logging.success("End process");
+                if (typeof callback === 'function') callback();
                 break;
         }
 
     });
-    if (typeof callback === 'function')
-        callback();
+    
 }
 
 const change_dir = (path) => {

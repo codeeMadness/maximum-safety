@@ -11,10 +11,10 @@ function main() {
   
   let mainWindow = new Window({file: path.join('renderer', 'index.html')})
   let scanWindow, quarantineWindow;
-  
+
   let progressManager = new ProgressManager([{name: 'bleachBit', progress: 0}, {name: 'clamAV', progress: 0}]);
-  let bleachbit = new BleachBit({window: mainWindow, progressManager: progressManager});
-  let clamAV = new ClamAV({window: mainWindow, progressManager: progressManager});
+  let bleachbit = new BleachBit({window: mainWindow, progressManager: progressManager, dataStore: new DataStore({name: 'bleachBit'})});
+  let clamAV = new ClamAV({window: mainWindow, progressManager: progressManager, dataStore: new DataStore({name: 'clamAV'})});
 
   ipcMain.on('open-scan-window', () => {
       if(scanWindow) return;
@@ -23,6 +23,10 @@ function main() {
           width: 800,
           height: 700,
           parent: mainWindow
+      })
+
+      scanWindow.once('show', () => {
+          scanWindow.webContents.send('latest-cleantime', bleachbit.settings.dataStore.getCleanTime().latestCleanTime);
       })
   })
 
@@ -39,6 +43,10 @@ function main() {
   ipcMain.handle('download-bleachbit', () => {
       bleachbit.download();
   });
+
+  ipcMain.handle('clean-system', () => {
+      bleachbit.cleanSystem(scanWindow);
+  })
 
   ipcMain.handle('download-clamav', () => {
       clamAV.download();
