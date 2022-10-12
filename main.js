@@ -4,42 +4,45 @@ const Window = require('./utils/Window');
 const DataStore = require('./utils/DataStore');
 const BleachBit = require('./entities/BleachBit');
 const ClamAV = require('./entities/ClamAV');
+const ProgressManager = require('./utils/ProgressManager');
 require('electron-reload')(__dirname);
 
 function main() {
-    let bleachbit = new BleachBit({});
-    let clamAV = new ClamAV({});
+  
+  let mainWindow = new Window({file: path.join('renderer', 'index.html')})
+  let scanWindow, quarantineWindow;
+  
+  let progressManager = new ProgressManager([{name: 'bleachBit', progress: 0}, {name: 'clamAV', progress: 0}]);
+  let bleachbit = new BleachBit({window: mainWindow, progressManager: progressManager});
+  let clamAV = new ClamAV({window: mainWindow, progressManager: progressManager});
 
-    let mainWindow = new Window({file: path.join('renderer', 'index.html')})
-    let scanWindow, quarantineWindow;
-
-    ipcMain.on('open-scan-window', () => {
-        if(scanWindow) return;
-        scanWindow = new Window({
-            file: path.join('renderer', 'scan-window.html'),
-            width: 800,
-            height: 700,
-            parent: mainWindow
-        })
-    })
-
-    ipcMain.on('open-quarantine-summary-window', () => {
-        if(quarantineWindow) return;
-        quarantineWindow = new Window({
-          file: path.join('renderer', 'quarantine-summary-window.html'),
+  ipcMain.on('open-scan-window', () => {
+      if(scanWindow) return;
+      scanWindow = new Window({
+          file: path.join('renderer', 'scan-window.html'),
           width: 800,
           height: 700,
-          parent: scanWindow
-        })
-    })
+          parent: mainWindow
+      })
+  })
 
-    ipcMain.handle('download-bleachbit', () => {
-        bleachbit.download(mainWindow);
-    });
+  ipcMain.on('open-quarantine-summary-window', () => {
+      if(quarantineWindow) return;
+      quarantineWindow = new Window({
+        file: path.join('renderer', 'quarantine-summary-window.html'),
+        width: 800,
+        height: 700,
+        parent: scanWindow
+      })
+  })
 
-    ipcMain.handle('download-clamav', () => {
+  ipcMain.handle('download-bleachbit', () => {
+      bleachbit.download();
+  });
+
+  ipcMain.handle('download-clamav', () => {
       clamAV.download();
-    });
+  });
 }
 
 app.whenReady().then(() => {

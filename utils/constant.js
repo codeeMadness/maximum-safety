@@ -1,5 +1,5 @@
 const params = {
-    DISK: 'E:',
+    DISK: 'C:',
     LOCATION: 'Downloads',
     SLASH: '/',
 
@@ -14,7 +14,10 @@ const params = {
 
 const cmd = {
     SLASH: '\\',
-    BLEACHBIT_INSTALL : 'BleachBit-4.4.1-setup-English.exe /S /NoDesktopShortcut /currentuser'
+    BLEACHBIT_INSTALL : params.BLEACHBIT_VERSION + ' /S /NoDesktopShortcut /currentuser',
+    CLAMAV_INSTALL: params.CLAMAV_VERSION + ' /SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART',
+    ENABLE_UAC: 'ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 1 /f',
+    DISABLE_UAC: 'ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 0 /f'
 }
 
 module.exports = {params, cmd};

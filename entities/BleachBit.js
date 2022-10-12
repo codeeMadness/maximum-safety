@@ -8,13 +8,18 @@ class BleachBit{
         this.winos = new WinOS(params.BLEACHBIT_VERSION, params.BLEACHBIT_URL);
     }
 
-    download(window) {
-        // this.winos.download(() => WinOS.install(cmd.BLEACHBIT_INSTALL));
-        this.winos.download(window);
-    }
-
-    getProgress() {
-        return this.winos.progress;
+    download() {
+        this.winos.download(() => WinOS.install(cmd.BLEACHBIT_INSTALL));
+        // this.winos.download();
+        var id = setInterval(() => {
+            let progressManager = this.settings.progressManager;
+            let progress = this.winos.progress;
+            progressManager.updateThread('bleachBit', progress);
+            this.settings.window.webContents.send('progress', progressManager.toPercentage());
+            if(progress >= 100) {
+              clearInterval(id);
+            }
+        }, 3000);
     }
 }
 
