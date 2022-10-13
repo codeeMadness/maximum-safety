@@ -19,6 +19,7 @@ class Window extends BrowserWindow {
         this.once('ready-to-show', () => {
             this.show();
         })
+        this.setIcon(path.join(__dirname, '/assets/icon.png'));
     }
 }
 

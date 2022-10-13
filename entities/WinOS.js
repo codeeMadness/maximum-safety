@@ -27,10 +27,6 @@ class WinOS {
           fs.mkdirSync(location.TEST_LOCATION, { recursive: true });
       }
 
-      WinOS.copyFile('./assets/clamd.conf', location.CLAMAV_INSTALL_LOCATION.concat(params.SLASH, "clams.conf"));
-      WinOS.copyFile('./assets/freshclam.conf', location.CLAMAV_INSTALL_LOCATION.concat(params.SLASH, "freshclam.conf"));
-      WinOS.copyFile('./assets/infected_test.zip', location.TEST_LOCATION.concat(params.SLASH, "infected_test.zip"));
-
     }
 
     download(install = null) {
@@ -61,17 +57,16 @@ class WinOS {
 
     static copyFile(origin, target) {
       target = target.replace("\\", "/");
-      if (!fs.existsSync(target)){
-        fs.mkdirSync(target, { recursive: true });
-        fs.copyFile(origin, target, (err) => {
-          if (err) {
-            Logging.error(err);
-            throw err;
-          }
-          Logging.success(`${origin} was copied to ${target}`);
-        });
-      }
+      fs.copyFile(origin, target, (err) => {
+        if (err) {
+          Logging.error(err);
+        }
+        Logging.success(`${origin} was copied to ${target}`);
+      });
+    }
 
+    static writeFile(path, content) {
+        fs.writeFileSync(path, content);
     }
 
 }

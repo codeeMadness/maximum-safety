@@ -2,12 +2,12 @@
 
 const { params: linux_params, cmd: linux_cmd } = require('../utils/linuxconstant');
 const { params: mac_params, cmd: mac_cmd } = require('../utils/macconstant');
-const { location: win_location, params : win_params, cmd: win_cmd, params, location } = require('../utils/winconstant');
+const { location: win_location, params : win_params, cmd: win_cmd} = require('../utils/winconstant');
 const LinuxOS = require('./LinuxOS');
 const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
 const { run_script, change_dir } = require('../utils/run_script');
-const fs = require("fs");
+const path = require('path');
 
 class ClamAV {
     constructor(settings) {
@@ -44,17 +44,32 @@ class ClamAV {
       }, 3000);
     }
 
-    config() {
-        change_dir(win_location.CLAMAV_INSTALL_LOCATION);
-        run_script(win_cmd.FRESHCLAM_CMD, []);
+    scan(subWindow) {
+      change_dir(win_location.CLAMAV_INSTALL_LOCATION);
+      run_script(win_cmd.CLAMAV_CMD, [win_cmd.CLAMAV_SCAN], {name: 'clamav', progress: true, window: subWindow}, (data) => {
+          this.settings.dataStore.writeScanResult(data);
+          // C:\MaximumSafety\test\infected_test.txt: Eicar-Test-Signature FOUND
+          // ----------- SCAN SUMMARY -----------
+          // Known viruses: 1992612
+          // Engine version: 0.103.7
+          // Scanned directories: 1
+          // Scanned files: 1
+          // Infected files: 1
+          // Data scanned: 0.00 MB
+          // Data read: 0.00 MB (ratio 0.00:1)   
+          // Time: 8.156 sec (0 m 8 s)
+          // Start Date: 2022:10:14 00:51:01
+          // End Date:   2022:10:14 00:51:09
+
+          // subWindow.webContents.send('latest-cleantime', this.settings.dataStore.getCleanTime().latestCleanTime);
+      });
     }
 
-    configForInstallation() {
-      WinOS.copyFile('./assets/clamd.conf', win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "clams.conf"));
-      WinOS.copyFile('./assets/freshclam.conf', win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
-      WinOS.copyFile('./assets/infected_test.zip', win_location.TEST_LOCATION.concat(win_params.SLASH, "infected_test.zip"));
-      change_dir(win_location.CLAMAV_INSTALL_LOCATION);
-      run_script(win_cmd.FRESHCLAM_CMD, []);
+    config() {
+        change_dir(win_location.CLAMAV_INSTALL_LOCATION);
+        WinOS.writeFile(win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"), "");
+        WinOS.copyFile(path.join(__dirname,'/config/freshclam.conf'), win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
+        run_script(win_cmd.FRESHCLAM_CMD, []);
     }
 }
 

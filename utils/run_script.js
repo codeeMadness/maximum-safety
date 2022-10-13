@@ -9,6 +9,7 @@ const Logging = require('./logging');
 const run_script = (command, args, opt = null, callback = null) => {
     let running = true;
     let percentage = 0;
+    let returnData = '';
 
     if(opt && opt.progress) {
         var id = setInterval(() => {
@@ -24,7 +25,7 @@ const run_script = (command, args, opt = null, callback = null) => {
 
             if(opt.window) {
                 // console.log('progress inteval ' + percentage);
-                opt.window.webContents.send('feature-progress', percentage);
+                opt.window.webContents.send('feature-progress', {name: opt.name, percentage: percentage});
             }
     
         }, 100);
@@ -42,7 +43,7 @@ const run_script = (command, args, opt = null, callback = null) => {
     child.stdout.setEncoding('utf8');
     child.stdout.on('data', (data) => {
         //Here is the output
-        data=data.toString();   
+        // data=data.toString();   
         Logging.info(data);     
     });
 
@@ -51,16 +52,18 @@ const run_script = (command, args, opt = null, callback = null) => {
         // Return some data to the renderer process with the mainprocess-response ID
         // mainWindow.webContents.send('mainprocess-response', data);
         //Here is the output from the command
-        Logging.info(data);
+        returnData = data;
+        // Logging.info(data);
     });
 
     child.on('close', (code) => {
+        Logging.info("Code returns " + code);
         //Here you can get the exit code of the script  
         switch (code) {
-            case 0:
+            case 0, 1:
                 running = false;
                 Logging.success("End process");
-                if (typeof callback === 'function') callback();
+                if (typeof callback === 'function') callback(returnData);
                 break;
         }
 

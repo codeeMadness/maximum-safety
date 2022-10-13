@@ -13,6 +13,15 @@ class DataStore extends Store {
         this.set('realtimeDetect', options.realtimeDetect);
     }
 
+    writeScanResult(result) {
+        this.set('scanResult', result);
+    }
+
+    getScanResult() {
+        this.scanResult = this.get('scanResult');
+        return this;
+    }
+
     writeCleanTime() {
         this.set('latestCleanTime', this.formatDate(new Date()));
     }

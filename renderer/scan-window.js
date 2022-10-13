@@ -25,5 +25,6 @@ document.getElementById('clean-btn').addEventListener('click', () => {
 })
 
 document.getElementById('scan-btn').addEventListener('click', () => {
-
+    actions.scanSystem();
+    actions.featureProgress();
 })

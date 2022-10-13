@@ -43,8 +43,8 @@ class BleachBit {
     }
 
     cleanSystem(subWindow) {
-        change_dir(win_location.INSTALL_LOCATION.concat(win_params.SLASH, 'BleachBit'));
-        run_script(win_cmd.BLEACHBIT_CMD, [win_cmd.BLEACHBIT_CLEAN], {progress: true, window: subWindow}, () => {
+        change_dir(win_location.BLEACHBIT_INSTALL_LOCATION);
+        run_script(win_cmd.BLEACHBIT_CMD, [win_cmd.BLEACHBIT_CLEAN], {name: 'bleachbit', progress: true, window: subWindow}, (data) => {
             this.settings.dataStore.writeCleanTime();
             subWindow.webContents.send('latest-cleantime', this.settings.dataStore.getCleanTime().latestCleanTime);
         });

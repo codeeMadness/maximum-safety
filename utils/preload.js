@@ -12,9 +12,18 @@ contextBridge.exposeInMainWorld('actions', {
         }
     }),
     cleanSystem: () => ipcRenderer.invoke('clean-system'),
-    featureProgress: () => ipcRenderer.on('feature-progress', (e, percentage) => {
-        var elem = document.getElementById("clean-bar");
-        elem.style.width = percentage + "%";
+    scanSystem: () => ipcRenderer.invoke('scan-now'),
+    featureProgress: () => ipcRenderer.on('feature-progress', (e, message) => {
+        if(message.name == 'bleachbit') {
+            var elem = document.getElementById("clean-bar");
+            elem.style.width = message.percentage + "%";
+        }
+
+        if(message.name == 'clamav') {
+            var elem = document.getElementById("scan-bar");
+            elem.style.width = message.percentage + "%";
+        }
+
     })
 })
 
