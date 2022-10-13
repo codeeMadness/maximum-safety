@@ -1,7 +1,7 @@
 'use strict'
 const { params: linux_params, cmd: linux_cmd } = require('../utils/linuxconstant');
 const { params: mac_params, cmd: mac_cmd } = require('../utils/macconstant');
-const { params : win_params, cmd: win_cmd } = require('../utils/winconstant');
+const { location: win_location, params : win_params, cmd: win_cmd } = require('../utils/winconstant');
 const LinuxOS = require('./LinuxOS');
 const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
@@ -29,7 +29,7 @@ class BleachBit {
     }
 
     download() {
-        this.winos.download(() => WinOS.install(win_cmd.BLEACHBIT_INSTALL));
+        this.winos.download(() => WinOS.install(win_cmd.BLEACHBIT_INSTALL.concat(win_location.BLEACHBIT_INSTALL_LOCATION)));
         // this.winos.download();
         var id = setInterval(() => {
             let progressManager = this.settings.progressManager;
@@ -43,7 +43,7 @@ class BleachBit {
     }
 
     cleanSystem(subWindow) {
-        change_dir(win_params.BLEACHBIT_INSTALLATION_PATH);
+        change_dir(win_location.INSTALL_LOCATION.concat(win_params.SLASH, 'BleachBit'));
         run_script(win_cmd.BLEACHBIT_CMD, [win_cmd.BLEACHBIT_CLEAN], {progress: true, window: subWindow}, () => {
             this.settings.dataStore.writeCleanTime();
             subWindow.webContents.send('latest-cleantime', this.settings.dataStore.getCleanTime().latestCleanTime);

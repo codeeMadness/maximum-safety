@@ -2,7 +2,7 @@
 
 const { params: linux_params, cmd: linux_cmd } = require('../utils/linuxconstant');
 const { params: mac_params, cmd: mac_cmd } = require('../utils/macconstant');
-const { params : win_params, cmd: win_cmd } = require('../utils/winconstant');
+const { location: win_location, params : win_params, cmd: win_cmd } = require('../utils/winconstant');
 const LinuxOS = require('./LinuxOS');
 const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
@@ -16,7 +16,7 @@ class ClamAV {
 
     initializeOS() {
       if(process.platform == 'darwin') {
-        this.macos = new MacOS(mac_params.CLAMAV_VERSION, mac_params.CLAMAV_URL);
+          this.macos = new MacOS(mac_params.CLAMAV_VERSION, mac_params.CLAMAV_URL);
       }
 
       else if(process.platform == 'linux') {
@@ -27,10 +27,10 @@ class ClamAV {
           this.winos = new WinOS(win_params.CLAMAV_VERSION, win_params.CLAMAV_URL);
       }
       
-  }
+    }
 
     download() {
-      this.winos.download(() => WinOS.install(cmd.CLAMAV_INSTALL));
+      this.winos.download(() => WinOS.install(win_cmd.CLAMAV_INSTALL.concat(win_location.CLAMAV_INSTALL_LOCATION)));
       // this.winos.download();
       var id = setInterval(() => { 
           let progressManager = this.settings.progressManager;

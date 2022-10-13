@@ -26,6 +26,8 @@ function main() {
           height: 700,
           parent: mainWindow
       })
+      scanWindow.setIcon('assets/icon.png');
+
 
       scanWindow.once('show', () => {
           scanWindow.webContents.send('latest-cleantime', bleachbit.settings.dataStore.getCleanTime().latestCleanTime);

@@ -1,6 +1,13 @@
+const location = {
+    DOWNLOAD_LOCATION: 'C:/MaximumSafety/downloads',
+    INSTALL_LOCATION: 'C:/MaximumSafety/app',
+    BLEACHBIT_INSTALL_LOCATION: 'C:\\MaximumSafety\\app\\BleachBit',
+    CLAMAV_INSTALL_LOCATION: 'C:\\MaximumSafety\\app\\ClamAV',
+}
+
 const params = {
     DISK: 'C:',
-    LOCATION: 'Downloads',
+    LOCATION: 'MaximumSafety',
     SLASH: '/',
   
     BLEACHBIT_INSTALLATION_PATH: 'C:/ProgramFiles/BleachBit',
@@ -20,8 +27,8 @@ const cmd = {
   
     BLEACHBIT_CMD: 'bleachbit_console.exe',
   
-    BLEACHBIT_INSTALL : params.BLEACHBIT_VERSION + ' /S /NoDesktopShortcut /currentuser /D=C:\\ProgramFiles\\BleachBit',
-    CLAMAV_INSTALL: params.CLAMAV_VERSION + ' /SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR=C:\\ProgramFiles\\ClamAV',
+    BLEACHBIT_INSTALL : params.BLEACHBIT_VERSION + ' /S /NoDesktopShortcut /currentuser /D=',
+    CLAMAV_INSTALL: params.CLAMAV_VERSION + ' /SP- /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR=',
   
     ENABLE_UAC: 'ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 1 /f',
     DISABLE_UAC: 'ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 0 /f',
@@ -29,4 +36,4 @@ const cmd = {
     BLEACHBIT_CLEAN: '-c "windows_explorer.*"'
 }
 
-module.exports = { params, cmd };
+module.exports = { location, params, cmd };
