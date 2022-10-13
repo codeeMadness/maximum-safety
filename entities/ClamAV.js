@@ -1,12 +1,33 @@
 'use strict'
-const { params, cmd } = require('../utils/constant');
+
+const { params: linux_params, cmd: linux_cmd } = require('../utils/linuxconstant');
+const { params: mac_params, cmd: mac_cmd } = require('../utils/macconstant');
+const { params : win_params, cmd: win_cmd } = require('../utils/winconstant');
+const LinuxOS = require('./LinuxOS');
+const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
+const { run_script, change_dir } = require('../utils/run_script');
 
 class ClamAV {
     constructor(settings) {
         this.settings = settings;
-        this.winos = new WinOS(params.CLAMAV_VERSION, params.CLAMAV_URL);
+        this.initializeOS();
     }
+
+    initializeOS() {
+      if(process.platform == 'darwin') {
+        this.macos = new MacOS(mac_params.CLAMAV_VERSION, mac_params.CLAMAV_URL);
+      }
+
+      else if(process.platform == 'linux') {
+          this.linuxos = new LinuxOS(linux_params.CLAMAV_VERSION, linux_params.CLAMAV_URL);
+      }
+
+      else {
+          this.winos = new WinOS(win_params.CLAMAV_VERSION, win_params.CLAMAV_URL);
+      }
+      
+  }
 
     download() {
       this.winos.download(() => WinOS.install(cmd.CLAMAV_INSTALL));
@@ -20,10 +41,6 @@ class ClamAV {
             clearInterval(id);
           }
       }, 3000);
-    }
-
-    getProgress() {
-        this.winos.getProgress();
     }
 }
 

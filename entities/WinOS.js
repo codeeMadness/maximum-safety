@@ -1,8 +1,10 @@
+'use strict'
+
 const { DownloaderHelper } = require('node-downloader-helper');
 const fs = require("fs");
 const {run_script, change_dir} = require('../utils/run_script');
 const Logging = require('../utils/logging');
-const { params, cmd } = require('../utils/constant');
+const { params } = require('../utils/winconstant');
 
 class WinOS {
     constructor(version, url) {

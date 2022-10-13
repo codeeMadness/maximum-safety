@@ -1,3 +1,5 @@
+'use strict'
+
 const { app, ipcMain } = require('electron')
 const path = require('path')
 const Window = require('./utils/Window');
