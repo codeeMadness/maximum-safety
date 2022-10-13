@@ -12,6 +12,7 @@ require('electron-reload')(__dirname);
 function main() {
   
   let mainWindow = new Window({file: path.join('renderer', 'index.html')})
+  // mainWindow.setIcon('assets/icon.png');
   let scanWindow, quarantineWindow;
 
   let progressManager = new ProgressManager([{name: 'bleachBit', progress: 0}, {name: 'clamAV', progress: 0}]);
@@ -26,7 +27,7 @@ function main() {
           height: 700,
           parent: mainWindow
       })
-      scanWindow.setIcon('assets/icon.png');
+      // scanWindow.setIcon('./assets/icon.png');
 
 
       scanWindow.once('show', () => {
@@ -42,6 +43,7 @@ function main() {
         height: 700,
         parent: scanWindow
       })
+      // quarantineWindow.setIcon('assets/icon.png');
   })
 
   ipcMain.handle('download-bleachbit', () => {

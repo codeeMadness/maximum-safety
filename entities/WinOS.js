@@ -22,6 +22,15 @@ class WinOS {
       if (!fs.existsSync(location.INSTALL_LOCATION)){
           fs.mkdirSync(location.INSTALL_LOCATION, { recursive: true });
       }
+
+      if (!fs.existsSync(location.TEST_LOCATION)){
+          fs.mkdirSync(location.TEST_LOCATION, { recursive: true });
+      }
+
+      WinOS.copyFile('./assets/clamd.conf', location.CLAMAV_INSTALL_LOCATION.concat(params.SLASH, "clams.conf"));
+      WinOS.copyFile('./assets/freshclam.conf', location.CLAMAV_INSTALL_LOCATION.concat(params.SLASH, "freshclam.conf"));
+      WinOS.copyFile('./assets/infected_test.zip', location.TEST_LOCATION.concat(params.SLASH, "infected_test.zip"));
+
     }
 
     download(install = null) {
@@ -43,11 +52,26 @@ class WinOS {
         });
     }
 
-    static install(command) {
+    static install(command, callback = null) {
         change_dir(location.DOWNLOAD_LOCATION);
         // run_script("dir", ["/A /B"]);
         // run_script("reg.exe", [cmd.DISABLE_UAC]);
-        run_script("start", [command]);
+        run_script("start", [command], null, callback);
+    }
+
+    static copyFile(origin, target) {
+      target = target.replace("\\", "/");
+      if (!fs.existsSync(target)){
+        fs.mkdirSync(target, { recursive: true });
+        fs.copyFile(origin, target, (err) => {
+          if (err) {
+            Logging.error(err);
+            throw err;
+          }
+          Logging.success(`${origin} was copied to ${target}`);
+        });
+      }
+
     }
 
 }

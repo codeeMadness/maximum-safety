@@ -69,6 +69,7 @@ const run_script = (command, args, opt = null, callback = null) => {
 }
 
 const change_dir = (path) => {
+    path = path.replace("\\", "/");
     try {
         // Change the directory
         process.chdir(path);
