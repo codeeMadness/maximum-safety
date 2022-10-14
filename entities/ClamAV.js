@@ -68,7 +68,8 @@ class ClamAV {
     config() {
         change_dir(win_location.CLAMAV_INSTALL_LOCATION);
         WinOS.writeFile(win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"), "");
-        WinOS.copyFile(path.join(__dirname,'/config/freshclam.conf'), win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
+        WinOS.writeFile(win_location.LOG_LOCATION.concat(win_params.SLASH, "freshclam.log"), "----- LOGGING START -----");
+        WinOS.copyFile(path.join(__dirname,'/config/freshclam-6h.conf'), win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
         run_script(win_cmd.FRESHCLAM_CMD, []);
     }
 }

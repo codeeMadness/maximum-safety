@@ -27,6 +27,10 @@ class WinOS {
           fs.mkdirSync(location.TEST_LOCATION, { recursive: true });
       }
 
+      if (!fs.existsSync(location.LOG_LOCATION)){
+          fs.mkdirSync(location.LOG_LOCATION, { recursive: true });
+      }
+
     }
 
     download(install = null) {
@@ -61,11 +65,12 @@ class WinOS {
         if (err) {
           Logging.error(err);
         }
-        Logging.success(`${origin} was copied to ${target}`);
+        else Logging.success(`${origin} was copied to ${target}`);
       });
     }
 
     static writeFile(path, content) {
+        path = path.replace("\\", "/");
         fs.writeFileSync(path, content);
     }
 

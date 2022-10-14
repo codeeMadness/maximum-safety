@@ -60,7 +60,8 @@ const run_script = (command, args, opt = null, callback = null) => {
         Logging.info("Code returns " + code);
         //Here you can get the exit code of the script  
         switch (code) {
-            case 0, 1:
+            case 0:
+            case 1:
                 running = false;
                 Logging.success("End process");
                 if (typeof callback === 'function') callback(returnData);

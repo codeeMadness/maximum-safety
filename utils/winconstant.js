@@ -3,7 +3,8 @@ const location = {
     INSTALL_LOCATION: 'C:/MaximumSafety/app',
     BLEACHBIT_INSTALL_LOCATION: 'C:\\MaximumSafety\\app\\BleachBit',
     CLAMAV_INSTALL_LOCATION: 'C:\\MaximumSafety\\app\\ClamAV',
-    TEST_LOCATION: 'C:/MaximumSafety/test'
+    TEST_LOCATION: 'C:/MaximumSafety/test',
+    LOG_LOCATION: 'C:/MaximumSafety/log'
 }
 
 const params = {
