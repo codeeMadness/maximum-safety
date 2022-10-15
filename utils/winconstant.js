@@ -33,7 +33,9 @@ const cmd = {
     DISABLE_UAC: 'ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 0 /f',
   
     BLEACHBIT_CLEAN: '-c "windows_explorer.*"',
-    CLAMAV_SCAN: '-r C:\\MaximumSafety\\test'
+    CLAMAV_SCAN: '-r C:\\MaximumSafety\\test',
+
+    CLAMAV_DELETE: '-r --remove ',
 }
 
 module.exports = { location, params, cmd };

@@ -9,7 +9,7 @@ const Logging = require('./logging');
 const run_script = (command, args, opt = null, callback = null) => {
     let running = true;
     let percentage = 0;
-    let returnData = '';
+    let returnData = [];
 
     if(opt && opt.progress) {
         var id = setInterval(() => {
@@ -44,7 +44,10 @@ const run_script = (command, args, opt = null, callback = null) => {
     child.stdout.on('data', (data) => {
         //Here is the output
         // data=data.toString();   
-        Logging.info(data);     
+        if(data.includes('FOUND'))
+            returnData.push(data);
+
+        // Logging.info(data);     
     });
 
     child.stderr.setEncoding('utf8');
@@ -52,8 +55,7 @@ const run_script = (command, args, opt = null, callback = null) => {
         // Return some data to the renderer process with the mainprocess-response ID
         // mainWindow.webContents.send('mainprocess-response', data);
         //Here is the output from the command
-        returnData = data;
-        // Logging.info(data);
+        Logging.info(data);
     });
 
     child.on('close', (code) => {

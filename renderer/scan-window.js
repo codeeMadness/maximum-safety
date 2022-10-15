@@ -2,6 +2,7 @@ let opts = {};
 
 //====================INIT DATA=================//
 infos.latestCleanTime();
+infos.scanSummary();
 
 let scanSchedule = document.getElementById("scan-schedule");
 scanSchedule.addEventListener('click', () => {
@@ -27,4 +28,5 @@ document.getElementById('clean-btn').addEventListener('click', () => {
 document.getElementById('scan-btn').addEventListener('click', () => {
     actions.scanSystem();
     actions.featureProgress();
+    infos.scanSummary();
 })

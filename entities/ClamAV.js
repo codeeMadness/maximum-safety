@@ -8,6 +8,7 @@ const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
 const { run_script, change_dir } = require('../utils/run_script');
 const path = require('path');
+const Logging = require('../utils/logging');
 
 class ClamAV {
     constructor(settings) {
@@ -45,24 +46,41 @@ class ClamAV {
     }
 
     scan(subWindow) {
-      change_dir(win_location.CLAMAV_INSTALL_LOCATION);
-      run_script(win_cmd.CLAMAV_CMD, [win_cmd.CLAMAV_SCAN], {name: 'clamav', progress: true, window: subWindow}, (data) => {
-          this.settings.dataStore.writeScanResult(data);
-          // C:\MaximumSafety\test\infected_test.txt: Eicar-Test-Signature FOUND
-          // ----------- SCAN SUMMARY -----------
-          // Known viruses: 1992612
-          // Engine version: 0.103.7
-          // Scanned directories: 1
-          // Scanned files: 1
-          // Infected files: 1
-          // Data scanned: 0.00 MB
-          // Data read: 0.00 MB (ratio 0.00:1)   
-          // Time: 8.156 sec (0 m 8 s)
-          // Start Date: 2022:10:14 00:51:01
-          // End Date:   2022:10:14 00:51:09
+        change_dir(win_location.CLAMAV_INSTALL_LOCATION);
+        run_script(win_cmd.CLAMAV_CMD, [win_cmd.CLAMAV_SCAN], {name: 'clamav', progress: true, window: subWindow}, (data) => {
+            this.settings.dataStore.processScanResult(data);
+            let infectedFiles = this.settings.dataStore.getInfecteds().infecteds;
+            subWindow.webContents.send('summary-scan', infectedFiles);
+        });
+    }
 
-          // subWindow.webContents.send('latest-cleantime', this.settings.dataStore.getCleanTime().latestCleanTime);
-      });
+    bundleInfected(location, subWindow, parent) {
+        Logging.info("Selected location " + location);
+        let infectedFiles = this.settings.dataStore.getInfecteds().infecteds;
+        let found = infectedFiles.find(f => f.location == location);
+        if(found) {
+            change_dir(win_location.CLAMAV_INSTALL_LOCATION);
+            run_script(win_cmd.CLAMAV_CMD, [win_cmd.CLAMAV_DELETE.concat(found.location)], null, (data) => {
+                let result = this.settings.dataStore.removeInfected(found);
+                if(result) {
+                    subWindow.webContents.send('summary-table', this.settings.dataStore.getInfecteds().infecteds);
+                    parent.webContents.send('summary-scan', this.settings.dataStore.getInfecteds().infecteds);
+                }
+            })
+        }
+    }
+
+    allowInfected(location, subWindow, parent) {
+        Logging.info("Selected location " + location);
+        let infectedFiles = this.settings.dataStore.getInfecteds().infecteds;
+        let found = infectedFiles.find(f => f.location == location);
+        if(found) {
+            let result = this.settings.dataStore.removeInfected(found);
+            if(result) {
+              subWindow.webContents.send('summary-table', this.settings.dataStore.getInfecteds().infecteds);
+              parent.webContents.send('summary-scan', this.settings.dataStore.getInfecteds().infecteds);
+            }
+        }
     }
 
     config() {
