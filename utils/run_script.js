@@ -24,7 +24,6 @@ const run_script = (command, args, opt = null, callback = null) => {
             }
 
             if(opt.window) {
-                // console.log('progress inteval ' + percentage);
                 opt.window.webContents.send('feature-progress', {name: opt.name, percentage: percentage});
             }
     
@@ -46,8 +45,7 @@ const run_script = (command, args, opt = null, callback = null) => {
         // data=data.toString();   
         if(data.includes('FOUND'))
             returnData.push(data);
-
-        // Logging.info(data);     
+        Logging.info(data);     
     });
 
     child.stderr.setEncoding('utf8');
@@ -55,17 +53,15 @@ const run_script = (command, args, opt = null, callback = null) => {
         // Return some data to the renderer process with the mainprocess-response ID
         // mainWindow.webContents.send('mainprocess-response', data);
         //Here is the output from the command
-        Logging.info(data);
+        Logging.error(data);
     });
 
     child.on('close', (code) => {
-        Logging.info("Code returns " + code);
         //Here you can get the exit code of the script  
         switch (code) {
             case 0:
             case 1:
                 running = false;
-                Logging.success("End process");
                 if (typeof callback === 'function') callback(returnData);
                 break;
         }
@@ -79,10 +75,9 @@ const change_dir = (path) => {
     try {
         // Change the directory
         process.chdir(path);
-        Logging.success("Directory changed");
     } catch (error) {
         // Printing error if occurs
-        Logging.error(error);
+        writeToFile(win_location.LOG_LOCATION.concat(win_params.SLASH, "app.log"), `${formatDate(new Date())} [ERROR] ${err}`);
     }
 }
 

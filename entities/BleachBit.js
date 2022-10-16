@@ -6,6 +6,7 @@ const LinuxOS = require('./LinuxOS');
 const MacOS = require('./MacOS');
 const WinOS = require('./WinOS');
 const { run_script, change_dir } = require('../utils/run_script');
+const Logging = require('../utils/logging');
 
 class BleachBit {
     constructor(settings) {
@@ -29,7 +30,7 @@ class BleachBit {
     }
 
     download() {
-        this.winos.download(() => WinOS.install(win_cmd.BLEACHBIT_INSTALL.concat(win_location.BLEACHBIT_INSTALL_LOCATION)));
+        this.winos.download(() => WinOS.install(win_cmd.BLEACHBIT_INSTALL.concat(win_location.BLEACHBIT_INSTALL_LOCATION), () => Logging.success(`Install ${win_params.BLEACHBIT_VERSION} successfully`)));
         // this.winos.download();
         var id = setInterval(() => {
             let progressManager = this.settings.progressManager;

@@ -36,7 +36,6 @@ class WinOS {
     download(install = null) {
         let path = location.DOWNLOAD_LOCATION.concat(params.SLASH, this.version)
         if(fs.existsSync(path)) {
-          Logging.warning("File already exists");
           this.progress = 100;
           return true;
         }
@@ -46,7 +45,7 @@ class WinOS {
         this.dl.on('progress', (stats) => {
           this.progress = stats.progress;
           if(this.progress >= 100) {
-            Logging.success(`Download ${this.version} completed`);
+            Logging.success(`Download ${this.version} successfully`);
             if (typeof install === 'function') install();
           }
         });
@@ -57,21 +56,6 @@ class WinOS {
         // run_script("dir", ["/A /B"]);
         // run_script("reg.exe", [cmd.DISABLE_UAC]);
         run_script("start", [command], null, callback);
-    }
-
-    static copyFile(origin, target) {
-      target = target.replace("\\", "/");
-      fs.copyFile(origin, target, (err) => {
-        if (err) {
-          Logging.error(err);
-        }
-        else Logging.success(`${origin} was copied to ${target}`);
-      });
-    }
-
-    static writeFile(path, content) {
-        path = path.replace("\\", "/");
-        fs.writeFileSync(path, content);
     }
 
 }

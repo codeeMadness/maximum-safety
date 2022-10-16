@@ -1,6 +1,7 @@
 'use strict'
 
 const Store = require('electron-store');
+const { formatDate } = require('./common');
 const Logging = require('./logging');
 
 class DataStore extends Store {
@@ -25,21 +26,12 @@ class DataStore extends Store {
     }
 
     writeCleanTime() {
-        this.set('latestCleanTime', this.formatDate(new Date()));
+        this.set('latestCleanTime', formatDate(new Date()));
     }
 
     getCleanTime() {
         this.latestCleanTime = this.get('latestCleanTime') || [];
         return this;
-    }
-
-    formatDate(date) {
-        var dateString =
-            date.toDateString() + " " +
-            ("0" + date.getUTCHours()).slice(-2) + ":" +
-            ("0" + date.getUTCMinutes()).slice(-2) + ":" +
-            ("0" + date.getUTCSeconds()).slice(-2);
-        return dateString;
     }
 
     processScanResult(data) {
@@ -52,7 +44,7 @@ class DataStore extends Store {
                 let location = fileInfo[0].concat(":", fileInfo[1]);
                 let found = this.infecteds.find(f => f.filename == filename);
                 if(!found) {
-                    let infectedJSON = {filename: filename, location: location, status: 'NEW', scanDate: this.formatDate(new Date())};
+                    let infectedJSON = {filename: filename, location: location, status: 'NEW', scanDate: formatDate(new Date())};
                     this.infecteds.push(infectedJSON);
                 }
             }
@@ -74,7 +66,7 @@ class DataStore extends Store {
         if (index > -1) { 
             this.infecteds.splice(index, 1); 
             this.set('infected', this.infecteds);
-            console.log(this.infecteds);
+            Logging.success("Success removed " + file);
             return true;
         } else {
             return false;

@@ -5,7 +5,25 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "build-installer": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "maximum-safety",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "utils/assets/icon.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "utils/assets/icon.ico",
+      "uninstallerIcon": "utils/assets/uninstall.ico",
+      "uninstallDisplayName": "MaximumSafety uninstall",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "repository": {
     "type": "git",
@@ -28,7 +46,8 @@
   "devDependencies": {
     "electron": "^21.1.0",
     "electron-reload": "^2.0.0-alpha.1",
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
     "node-downloader-helper": "^2.1.4"

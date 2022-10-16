@@ -9,6 +9,7 @@ const WinOS = require('./WinOS');
 const { run_script, change_dir } = require('../utils/run_script');
 const path = require('path');
 const Logging = require('../utils/logging');
+const { writeToFile, copyFile } = require('../utils/common');
 
 class ClamAV {
     constructor(settings) {
@@ -85,10 +86,10 @@ class ClamAV {
 
     config() {
         change_dir(win_location.CLAMAV_INSTALL_LOCATION);
-        WinOS.writeFile(win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"), "");
-        WinOS.writeFile(win_location.LOG_LOCATION.concat(win_params.SLASH, "freshclam.log"), "----- LOGGING START -----");
-        WinOS.copyFile(path.join(__dirname,'/config/freshclam-6h.conf'), win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
-        run_script(win_cmd.FRESHCLAM_CMD, []);
+        writeToFile(win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"), "");
+        writeToFile(win_location.LOG_LOCATION.concat(win_params.SLASH, "freshclam.log"), "----- LOGGING START -----");
+        copyFile(path.join(__dirname,'/config/freshclam-6h.conf'), win_location.CLAMAV_INSTALL_LOCATION.concat(win_params.SLASH, "freshclam.conf"));
+        run_script(win_cmd.FRESHCLAM_CMD, [], null, () => Logging.success(`Install ${win_params.CLAMAV_VERSION} successfull`));
     }
 }
 

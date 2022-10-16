@@ -64,7 +64,6 @@ function main() {
     });
 
     ipcMain.on('bundle-infected-file', (e, location) => {
-        console.log(location);
         clamAV.bundleInfected(location, quarantineWindow, scanWindow);
     });
 

@@ -36,7 +36,6 @@ contextBridge.exposeInMainWorld('infos', {
     }),
     scanSummary: () => ipcRenderer.on('summary-scan', (e, infecteds) => {
         var elem = document.getElementById("scan-information");
-        console.log("Infected Files: " + infecteds);
         let infectedsNew = infecteds.filter(i => i.status == 'NEW');
         elem.innerHTML = `Quarantine file New (${infectedsNew.length}) Total (${infecteds.length})`;
         elem.addEventListener('click', () => {
@@ -64,7 +63,6 @@ contextBridge.exposeInMainWorld('infos', {
             let bundleBtn = document.createElement('button');
             bundleBtn.innerHTML = 'Burn from system';
             bundleBtn.onclick = () => {
-                console.log(i.location);
                 ipcRenderer.send('bundle-infected-file', i.location);
             }
 
