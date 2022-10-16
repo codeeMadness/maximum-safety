@@ -47,9 +47,9 @@ You will see the app open like this:
 
 Click **Activate** to download materials for the app.
 
-> ** You can see the short demo video here. ** [Demo Video](https://youtu.be/Hphps0oekcU) **
+> ** You can watch the short demo video here. ** [Demo Video](https://youtu.be/Hphps0oekcU) **
 
-## NOTE :flushed::flushed::
+## COMING SOON :flushed::flushed::
 I have not finished yet. Some features need to develop more.
 |Status          |TASKS                         
 |-------------------|-------------------------------
