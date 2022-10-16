@@ -10,6 +10,7 @@ Hi! This comes from code challenge week - NUAH - TEST - 1- 4.
 
 # UseCase
 1. **Scan System**
+
 You can click button **Scan Now** to scan whole system for an infected files.
 
 ![Image](https://user-images.githubusercontent.com/102911684/196047860-144ffb34-be94-4640-b258-c1777d631b41.png)
@@ -21,7 +22,9 @@ Click **Burn from system** to delete infected file safely on system or **Allow o
 All results will tracked into the app's file log.
 
 ![Image](https://user-images.githubusercontent.com/102911684/196048290-798214cb-824a-4613-b9b6-e4d303d8316f.png)
+
 2. **Clean System**
+
 You can click **Clean System Now** to clean whole system. The latest clean time will be tracked to notify the last time you have scanned your system.
 
 ![Image](https://user-images.githubusercontent.com/102911684/196048171-ce3e2a0c-ec4d-4fc1-a731-eecee01dc71e.png)
