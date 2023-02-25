@@ -1,8 +1,5 @@
 # I called it Maximum Safety
 
-> Hi! This comes from ** code challenge week - NUAH - TEST - 1- 4.** 
-
-
 # Materials
 - [Electronjs](https://www.electronjs.org/) Build cross-platform desktop apps with JavaScript, HTML, and CSS
 - [ClamAV](https://www.clamav.net/) is an open-source antivirus engine for detecting trojans, viruses, malware & other malicious threats
